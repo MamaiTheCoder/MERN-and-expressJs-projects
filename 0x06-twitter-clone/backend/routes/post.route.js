@@ -9,7 +9,7 @@ import {
     getLikedPosts,
     getFollowingPosts,
     getUserPosts
-} from "../controllers/post.controllers.js";
+} from "../controllers/post.controller.js";
 
 const router = e.Router();
 
