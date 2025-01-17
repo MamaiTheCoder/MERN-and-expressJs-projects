@@ -1,7 +1,7 @@
-import e from "express";
 import mongoose from "mongoose";
+import crypto from "crypto";
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true,
@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
 // stored directly in the user document. Instead,
 // it is handled as a virtual field.
 
-userSchema
+UserSchema
   .virtual("password")
   .set(function (password) {
     this._password = password;
@@ -45,7 +45,7 @@ userSchema
 // representing the password value, are defined as
 // UserSchema methods
 
-userSchema.methods = {
+UserSchema.methods = {
   authenticate: function (plainText) {
     /* called to verify sign-in attempts by matching the
     user-provided password text with the hashed_password
@@ -77,7 +77,7 @@ userSchema.methods = {
 // add custom validation constraints to the actual password
 // string that's selected by the end user,
 
-userSchema.path("hashed_password").validate(function (v) {
+UserSchema.path("hashed_password").validate(function (v) {
   if (this._password && this._password.length < 6) {
     // if the password is less than 6 characters long,
     // the user document will not be saved to the database
@@ -94,6 +94,6 @@ userSchema.path("hashed_password").validate(function (v) {
   }
 }, null);
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("User", UserSchema);
 
 export default User;
