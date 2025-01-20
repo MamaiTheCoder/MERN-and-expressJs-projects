@@ -22,6 +22,12 @@ const PORT = process.env.PORT || 5000;
 const CURRENT_WORING_DIR = process.cwd();
 
 
+const corsOptions = {
+  origin: 'http://localhost:3000',  // Specify the frontend origin
+  credentials: true,  // Allow credentials to be sent
+};
+
+
 // middlewares
 app.use(express.json()); // Ensure JSON body is parsed
 app.use(bodyParser.json());
@@ -29,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(compress());
 app.use(helmet());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use('/dist', express.static(path.join(CURRENT_WORING_DIR, 'dist')));
 
 app.use("/", userRoutes);

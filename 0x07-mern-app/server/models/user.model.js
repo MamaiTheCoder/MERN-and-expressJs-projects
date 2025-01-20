@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import crypto from "crypto";
+import { type } from "os";
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -24,6 +25,14 @@ const UserSchema = new mongoose.Schema({
     required: "Password is required",
   },
   salt: String,
+  about: {
+    type: String,
+    trim: true
+  },
+  photo: {
+    data: Buffer,
+    contentType: String
+  }
 });
 // password string that's provided by the user is not
 // stored directly in the user document. Instead,
