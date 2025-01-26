@@ -39,11 +39,11 @@ const create = (request, response) => __awaiter(void 0, void 0, void 0, function
 const list = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const users = yield user_model_1.User.find().select("name email updated created");
-        if (!users) {
-            return response.status(404).json({
-                message: "No users found"
-            });
-        }
+        // if (users.length === 0) {
+        //   return response.status(404).json({
+        //     message: "No users found"
+        //   });
+        // }
         return response.status(200).json(users);
     }
     catch (error) {

@@ -40,11 +40,11 @@ const list = async (request: Request, response: Response): Promise<any> => {
   try {
     const users = await User.find().select("name email updated created");
 
-    if (!users) {
-      return response.status(404).json({
-        message: "No users found"
-      });
-    }
+    // if (users.length === 0) {
+    //   return response.status(404).json({
+    //     message: "No users found"
+    //   });
+    // }
 
     return response.status(200).json(users);
   } catch (error) {
