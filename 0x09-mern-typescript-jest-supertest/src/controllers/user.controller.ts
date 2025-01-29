@@ -9,9 +9,6 @@ import {
 } from "../types/request";
 
 
-
-
-
 const create = async (
   request: Request<{}, {}, CreateUserRequestBody>,
   response: Response<SuccessCreateResponse>
@@ -27,12 +24,12 @@ const create = async (
     // Since 'error' is of type 'unknown', we need to check if it's an instance of Error
     if (error instanceof Error) {
       console.log("Error in create controller: ", error.message);
+      return response.status(500).json({
+        error: error.message,
+      });
     } else {
       console.log("Unknown error in create controller");
     }
-    return response.status(500).json({
-      error: "internal server error",
-    });
   }
 };
 
@@ -92,6 +89,9 @@ const read = async (
 ): Promise<any> => {
   request.user.hashed_password = undefined
   request.user.salt = undefined
+  console.log('====================================');
+  console.log(request.user);
+  console.log('====================================');
   return response.json(request.user)
 };
 
@@ -122,9 +122,14 @@ const remove = async (
   response: Response
 ) => {
   let user = request.user;
+
+  console.log('====================================');
+  console.log(user);
+  console.log('====================================');
+
   let deletedUser = await user.deleteOne();
-  deletedUser.hashed_password = undefined
-  deletedUser.salt = undefined
+  deletedUser.hashed_password = undefined;
+  deletedUser.salt = undefined;
   response.json(deletedUser)
 }
 

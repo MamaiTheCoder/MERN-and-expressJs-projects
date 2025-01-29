@@ -27,13 +27,13 @@ const create = (request, response) => __awaiter(void 0, void 0, void 0, function
         // Since 'error' is of type 'unknown', we need to check if it's an instance of Error
         if (error instanceof Error) {
             console.log("Error in create controller: ", error.message);
+            return response.status(500).json({
+                error: error.message,
+            });
         }
         else {
             console.log("Unknown error in create controller");
         }
-        return response.status(500).json({
-            error: "internal server error",
-        });
     }
 });
 const list = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
@@ -83,6 +83,9 @@ const userByID = (request, response, next, id) => __awaiter(void 0, void 0, void
 const read = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     request.user.hashed_password = undefined;
     request.user.salt = undefined;
+    console.log('====================================');
+    console.log(request.user);
+    console.log('====================================');
     return response.json(request.user);
 });
 const update = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
@@ -107,6 +110,9 @@ const update = (request, response) => __awaiter(void 0, void 0, void 0, function
 });
 const remove = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     let user = request.user;
+    console.log('====================================');
+    console.log(user);
+    console.log('====================================');
     let deletedUser = yield user.deleteOne();
     deletedUser.hashed_password = undefined;
     deletedUser.salt = undefined;

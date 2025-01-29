@@ -13,16 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-const connectMongoDB = () => __awaiter(void 0, void 0, void 0, function* () {
+const connectToMongoDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (!process.env.MONGO_URI) {
-            throw new Error('MONGO_URI environment variable is not defined');
+        const mongoDbUri = process.env.MONGO_URI;
+        if (!mongoDbUri) {
+            throw new Error("MONGO_URI environment variable is not defined");
         }
         const conn = yield mongoose_1.default.connect(process.env.MONGO_URI, {
             serverSelectionTimeoutMS: 10000,
             socketTimeoutMS: 45000,
         });
-        console.log(`MongoDB connected:  ${conn.connection.host}`);
+        console.log(`MongoDB connected: ${conn.connection.host}`);
     }
     catch (error) {
         // Since 'error' is of type 'unknown', we need to check if it's an instance of Error
@@ -35,4 +36,4 @@ const connectMongoDB = () => __awaiter(void 0, void 0, void 0, function* () {
         }
     }
 });
-exports.default = connectMongoDB;
+exports.default = connectToMongoDB;

@@ -1,8 +1,10 @@
 import { Request } from "express-serve-static-core";
-import { IUser, User } from "../models/user.model";
+
+import { User, IUser } from "../models/user.model";
 
 export interface RequestCustom extends Request {
   user?: User;
+  auth?: { _id: string }; // Assuming `auth` has an `_id` of type string
 }
 
 export interface CreateUserRequestBody {

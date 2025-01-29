@@ -1,15 +1,19 @@
 import mongoose from "mongoose";
 
-const connectMongoDB = async () => {
+const connectToMongoDB = async () => {
   try {
-    if (!process.env.MONGO_URI) {
-      throw new Error('MONGO_URI environment variable is not defined');
+    const mongoDbUri = process.env.MONGO_URI;
+
+    if (!mongoDbUri) {
+      throw new Error("MONGO_URI environment variable is not defined");
     }
+
     const conn = await mongoose.connect(process.env.MONGO_URI as string, {
       serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 45000,
     });
-    console.log(`MongoDB connected:  ${conn.connection.host}`);
+
+    console.log(`MongoDB connected: ${conn.connection.host}`);
   } catch (error) {
     // Since 'error' is of type 'unknown', we need to check if it's an instance of Error
     if (error instanceof Error) {
@@ -21,4 +25,4 @@ const connectMongoDB = async () => {
   }
 };
 
-export default connectMongoDB;
+export default connectToMongoDB;
