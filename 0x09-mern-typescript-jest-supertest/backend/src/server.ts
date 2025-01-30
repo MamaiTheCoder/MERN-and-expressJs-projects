@@ -3,16 +3,24 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import { Request, Response, NextFunction } from "express-serve-static-core";
+import cors from 'cors';
+import bodyParser from "body-parser";
 
 import connectToMongoDB from "./db/connectToMongoDB";
 import userRoute from "./routers/user.router";
 import authRoute from "./routers/auth.router";
 import { RequestCustom } from "./types/request";
+import compression from "compression";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+const corsOptions = {
+  origin: 'http://localhost:3000',  // Specify the frontend origin
+  credentials: true, // Allow credentials to be sent
+};
 
 interface UnauthorizedError extends Error {
   name: "UnauthorizedError";
@@ -21,8 +29,12 @@ interface UnauthorizedError extends Error {
 
 // middlewares
 app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(compression());
 app.use(cookieParser());
 app.use(helmet());
+app.use(cors(corsOptions));
 
 app.use("/api/v1", authRoute);
 app.use("/api/v1", userRoute);
